@@ -1,10 +1,6 @@
-from auxTarefas import readFunc, writeFunc, cansultFunc, removeFunc, addTarefa, closeTarefa, estadoTarefa, editTarefa, searchTarefa
+from auxTarefas import readFunc, writeFunc, consultFunc, removeFunc, addTarefa, closeTarefa, estadoTarefa, editTarefa, searchTarefa, sortTarefa
 
-def main():
-    op = ()
-
-    list = readFunc()
-
+def printMenu():
     print("1. Adicionar uma tarefa ")
     print("2. Editar uma tarefa ")
     print("3. Consultar tarefas ")
@@ -14,6 +10,11 @@ def main():
     print("7. Procurar tarefas por nome ")
     print("8. Ordenação da lista de tarefas ")
     print("9. Sair ")
+
+def main():
+    list = readFunc()
+
+    printMenu()
 
     op= int(input("O que deseja selecionar:"))
 
@@ -28,7 +29,7 @@ def main():
 
         if op == 3:
             print("3. Consultar tarefas ")
-            cansultFunc(list)
+            consultFunc(list,"main")
 
         if op == 4:
             print("4. Filtrar tarefas por estado ")
@@ -48,12 +49,15 @@ def main():
 
         if op == 8:
             print("8. Ordenação da lista de tarefas  ")
+            sortTarefa(list)
 
         if op == 9:
             print("9. Sair ")
 
+        print("Carregue no 0 para retroceder")
+        input()
+        printMenu()
         op = int(input("O que deseja selecionar:"))
-
 
     writeFunc(list)
 main()
