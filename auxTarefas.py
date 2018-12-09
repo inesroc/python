@@ -124,9 +124,9 @@ def editTarefa(list):
 
     sel = int(input()) -1
     if list[sel][3] == "Fechada":
-        print("A tarefa esta fechada tem a certeza que deseja modificar-la?")
+        print("A tarefa esta fechada tem a certeza que deseja modificar-la? \n 1) sim, \n 2) nao")
         resp = input()
-        if resp == "nao":
+        if resp == "2":
             return
     print("Pretende mudar o nome ou as obeservações?")
     print("1. Nome")

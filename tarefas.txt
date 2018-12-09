@@ -1,3 +1,3 @@
-"Tarefa gira";"2018-11-17 14:44:54.427852";"";"Aberta";"okujjgy, cenas"
+"Tarefa cool";"2018-11-17 14:44:54.427852";"";"Aberta";"okujjgy, cenas"
 "Tarefa2";"2018-11-24 16:05:58.477012";"2018-11-17 17:23:35.425470";"Fechada";"es linda"
 "Tarefa1";"2018-11-20 19:30:22.427852";"2018-11-18 17:23:03.657170";"Fechada";"jhyht ninjbg"

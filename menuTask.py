@@ -13,9 +13,7 @@ def printMenu():
 
 def main():
     list = readFunc()
-
     printMenu()
-
     op= int(input("O que deseja selecionar:"))
 
     while op != 9:
