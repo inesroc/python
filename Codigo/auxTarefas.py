@@ -21,16 +21,16 @@ def openTxt(nameFile):
     return dir
 
 def readFunc():
-    list=[]
+    lista=[]
     dir = openTxt(r"\tarefas.txt")
     myFile = open(os.path.join(dir),"r")
     reader = csv.reader(myFile, delimiter=";", quotechar='"')
 
     for row in reader:
         if row:
-            list = list + [row]
+            lista = lista + [row]
     myFile.close()
-    return(list)
+    return(lista)
 
 
 def writeFunc(allLists):
@@ -46,16 +46,16 @@ def writeFunc(allLists):
     myFile.close()
 
 def readNomeListas():
-    list = []
+    lista = []
     dir = openTxt(r"\listaTarefas.txt")
     myFile = open(os.path.join(dir), "r")
     reader = csv.reader(myFile, delimiter=";", quotechar='"')
 
     for row in reader:
         if row:
-            list = list + [row]
+            lista = lista + [row]
     myFile.close()
-    return (list)
+    return (lista)
 
 
 def writeNomeListas(alllists):
@@ -80,10 +80,10 @@ def getListas(tarefas, nomeListas):
     return allLists
 
 
-def consultFunc(list,funcao):
+def consultFunc(lista,funcao):
     # funcao pode ser main ou sort
 
-    for row in list.lista:
+    for row in lista.lista:
         if (row[3] == "Fechada" and funcao == "sort") or funcao == "main":
             print(row[0])
             print("Data de Criação:",row[1])
@@ -95,9 +95,9 @@ def consultFunc(list,funcao):
             print("------------------------------------------------------")
 
 
-def removeFunc(list):
+def removeFunc(lista):
     sel = 1
-    for row in list.lista:
+    for row in lista.lista:
         print(sel,")",row[0])
         sel = sel + 1
     print("Selecione a tarefa que pretende remover:")
@@ -105,12 +105,12 @@ def removeFunc(list):
     op = int(input())
     op =  op - 1
 
-    list.lista.remove(list.lista[op])
-    list.num = str(int(list.num) - 1)
+    lista.lista.remove(lista.lista[op])
+    lista.num = str(int(lista.num) - 1)
 
-    return(list)
+    return(lista)
 
-def addTarefa(list):
+def addTarefa(lista):
     temp = []
     print("Nome que pretende:")
     nome = input()
@@ -128,17 +128,17 @@ def addTarefa(list):
         obs2 = ""
     temp = temp + [obs2]
 
-    list.lista = list.lista + [temp]
-    list.num = str(int(list.num) + 1)
-    return list
+    lista.lista = lista.lista + [temp]
+    lista.num = str(int(lista.num) + 1)
+    return lista
 
-def closeTarefa(list):  #mudar list para list.lista
+def closeTarefa(lista):  #mudar lista para lista.lista
     temp = []
     sel = 1
 
-    for i in range(0,len(list.lista)):
-        if list.lista[i][3] == "Aberta":
-            print(sel,")",list.lista[i][0])
+    for i in range(0,len(lista.lista)):
+        if lista.lista[i][3] == "Aberta":
+            print(sel,")",lista.lista[i][0])
             temp = temp + [i]
             sel = sel + 1
     if sel == 1:
@@ -146,17 +146,17 @@ def closeTarefa(list):  #mudar list para list.lista
     else:
         print("Escolhe a tarefa que quer fechar:")
         sel = int(input()) - 1
-        list.lista[temp[sel]][2] = datetime.datetime.now()
-        list.lista[temp[sel]][3] = "Fechada"
-    return(list)
+        lista.lista[temp[sel]][2] = datetime.datetime.now()
+        lista.lista[temp[sel]][3] = "Fechada"
+    return(lista)
 
-def estadoTarefa(list):  #mudar list para list.lista
+def estadoTarefa(lista):  #mudar lista para lista.lista
     print("Deseja ver as tarefas:")
     print("1. Abertas")
     print("2. Fechadas")
     op = int(input())
 
-    for row in list.lista:
+    for row in lista.lista:
         if (op == 1) and (row[3]== "Aberta"):
             print(row[0])
             print("Data de Criação:", row[1])
@@ -170,33 +170,33 @@ def estadoTarefa(list):  #mudar list para list.lista
             print("Observações:", row[4])
             print("------------------------------------------------------")
 
-def editTarefa(list): #mudar list para list.lista
+def editTarefa(lista): #mudar lista para lista.lista
     sel = 1
 
     print("Selecione a lista que pretende editar:")
-    for row in list.lista:
+    for row in lista.lista:
         print(sel, ")", row[0] )
         sel = sel + 1
 
     sel = int(input()) -1
-    if list.lista[sel][3] == "Fechada":
+    if lista.lista[sel][3] == "Fechada":
         print("A tarefa esta fechada tem a certeza que deseja modificar-la? \n 1) sim, \n 2) nao")
         resp = input()
         if resp == "2":
-            return list
+            return lista
     print("Pretende mudar o nome ou as obeservações?")
     print("1. Nome")
     print("2. Observações")
     op = int(input())
     if op == 1:
         print("Escreva o novo nome!")
-        list.lista[sel][0] = input()
+        lista.lista[sel][0] = input()
     if op == 2:
         print("Escreva a nova observação!")
-        list[sel][4] = input()
-    return list
+        lista[sel][4] = input()
+    return lista
 
-def searchTarefa(list): #mudar list para list.lista
+def searchTarefa(lista): #mudar lista para lista.lista
     print("Digite:")
 
     x = input()
@@ -205,26 +205,26 @@ def searchTarefa(list): #mudar list para list.lista
 
     temp = []
 
-    for i in range(0, len(list.lista)):
-        d = list.lista[i][0].find(x)
+    for i in range(0, len(lista.lista)):
+        d = lista.lista[i][0].find(x)
         if d != -1:
-            print(sel, ")", list.lista[i][0])
+            print(sel, ")", lista.lista[i][0])
             temp = temp + [i]
             sel = sel + 1
 
     if sel != 1:
         print("Que tarefa deseja selecionar?")
         op = int(input()) -1
-        print(list.lista[temp[op]][0])
-        print("Data de Criação:", list.lista[temp[op]][1])
-        if list.lista[temp[op]][3] == "Fechada":
-            print("Estado:", list.lista[temp[op]][3], "-> Data de concretização", list.lista[temp[op]][2])
+        print(lista.lista[temp[op]][0])
+        print("Data de Criação:", lista.lista[temp[op]][1])
+        if lista.lista[temp[op]][3] == "Fechada":
+            print("Estado:", lista.lista[temp[op]][3], "-> Data de concretização", lista.lista[temp[op]][2])
         else:
-            print("Estado:", list.lista[temp[op]][3])
-        print("Observações:", list.lista[temp[op]][4])
+            print("Estado:", lista.lista[temp[op]][3])
+        print("Observações:", lista.lista[temp[op]][4])
         print("------------------------------------------------------")
 
-def sortTarefa(list): #mudar list para list.lista
+def sortTarefa(lista): #mudar lista para lista.lista
     campo = 0
     print("Quer organizar por: \n 1) nome, \n 2) data de criação \n 3) data de concretisação")
     op = int(input())
@@ -240,11 +240,11 @@ def sortTarefa(list): #mudar list para list.lista
         i = 0
         changed = False
 
-        while i < len(list.lista)-1:
-            if (list.lista[i+1][campo] < list.lista[i][campo]):
-                aux = list.lista[i]
-                list.lista[i] = list.lista[i+1]
-                list.lista[i+1] = aux
+        while i < len(lista.lista)-1:
+            if (lista.lista[i+1][campo] < lista.lista[i][campo]):
+                aux = lista.lista[i]
+                lista.lista[i] = lista.lista[i+1]
+                lista.lista[i+1] = aux
                 changed = True
 
             i = i+1
@@ -252,7 +252,7 @@ def sortTarefa(list): #mudar list para list.lista
         if (changed == False):
             break;
 
-    consultFunc(list,"sort")
+    consultFunc(lista,"sort")
 
 def atualiza(allLists, lista):
     for i in range(0,len(allLists)):
@@ -264,18 +264,18 @@ def mudarLista(allLists):
     sel = 1
     leng = len(allLists)
     print("len",leng)
-    for list in allLists:
-        print(sel, ')', list.nome)
+    for lista in allLists:
+        print(sel, ')', lista.nome)
         sel = sel + 1
     op=int(input("Qual e que deseja mudar:"))
     op = op - 1
-    list = allLists[op]
-    return list
+    lista = allLists[op]
+    return lista
 
-def mudarNomeLista(list): #list.nome
+def mudarNomeLista(lista): #lista.nome
     nome = input("Novo nome da lista:")
-    list.nome = nome
-    return list
+    lista.nome = nome
+    return lista
 
 def criarList(allLists):
     nome = input("Qual o nome da lista:")
