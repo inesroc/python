@@ -2,6 +2,12 @@ import csv
 import datetime
 import os
 
+class myLists():
+    def __init__(self, nome, num, lista):
+        self.nome = nome
+        self.num = num
+        self.lista = lista
+
 def openTxt(nameFile):
     #print("diretorio atual: ",os.path.abspath(file))
     #print("diretorio sem o ultimo elemento: ",os.path.dirname(os.path.abspath(file)))
@@ -26,13 +32,14 @@ def read():
     file.close()
     return (lista)
 
-def write(lista):
+def write(allLists):
     dir = openTxt(r"\compras.txt")
     file = open(os.path.join(dir), "w")
     writer = csv.writer(file, delimiter=';', quotechar='"', quoting=csv.QUOTE_ALL)
 
-    for row in lista:
-        writer.writerow(row)
+    for row in allLists:
+        for elem in row.lista:
+            writer.writerow(elem)
     file.close()
 
 def readCate():
@@ -99,6 +106,38 @@ def writeCateItem(lista):
         writer.writerow(row)
     file.close()
 
+def readNomeListas():
+    lista = []
+    dir = openTxt(r"\listaCompras.txt")
+    myFile = open(os.path.join(dir), "r")
+    reader = csv.reader(myFile, delimiter=";", quotechar='"')
+
+    for row in reader:
+        if row:
+            lista = lista + [row]
+    myFile.close()
+    return (lista)
+
+def writeNomeListas(alllists):
+    dir = openTxt(r"\listaCompras.txt")
+    myFile = open(os.path.join(dir), "w")
+    writer = csv.writer(myFile, delimiter=';', quotechar='"', quoting=csv.QUOTE_ALL)
+
+    for row in alllists:
+        s = [row.nome, row.num]
+        print(s)
+        writer.writerow(s)
+    myFile.close()
+
+def getListas(tarefas, nomeListas):
+    allLists = []
+    x = 0
+    for row in nomeListas:
+        y = x + int(row[1])
+        allLists = allLists + [myLists(row[0], row[1], tarefas[x:y])]
+        x = x + int(row[1])
+    return allLists
+
 def addCompras(lista, inventario):
     sel = 1
     print("Produto          | Preço Por unicade      | Quantidade existente ")
@@ -115,19 +154,20 @@ def addCompras(lista, inventario):
     temporaria += [inventario[sl][2]] + [inventario[sl][3]] + [inventario[sl][4]]
   #temporaria[2] = date
     print(temporaria)
-    lista += [temporaria]
+    lista.lista += [temporaria]
+    lista.num = str(int(list.num) + 1)
 
     return lista
 
 def editarElem (lista):
     seletor = 1
     
-    for row in lista:
+    for row in lista.lista:
         print(seletor, ')', row[0])
         seletor += 1
     seletor = int(input('Selecione o que pretende editar: ')) -1
     
-    if lista[seletor][3] == 'Fechada':
+    if lista.lista[seletor][3] == 'Fechada':
         resp = input('O elemento esta pago. tem a certeza que quer modica lo: \n 1) Sim, \n 2) Nao')
         if resp == '2':
             return
@@ -136,50 +176,48 @@ def editarElem (lista):
     opcao = int(input('O que pretende modificar?' ))
     if opcao == 1:
         nome = input('Novo nome: ')
-        lista[seletor][0] = nome
+        lista.lista[seletor][0] = nome
     elif opcao == 2:
         observacoes = input('Nova observação: ')
-        lista[seletor][4] = observacoes
+        lista.lista[seletor][4] = observacoes
     return(lista)
 
 def remove(lista):
     
     cont = 1
-    for row in lista:
+    for row in lista.lista:
         print(cont,')',row[0])
         cont += 1
     opcao = int(input('Selecione o elemento que pretende retirar.'))
     opcao -= 1
-    lista.remove(lista[opcao])
-    
+    lista.lista.remove(lista.lista[opcao])
+    lista.num = str(int(lista.num) - 1)
+    print("num",lista.num)
+
     return lista
 
 def searchElem(lista):
     print("Digite:")
-
     x = input()
-
     sel = 1
-
     temp = []
-
-    for i in range(0, len(lista)):
-        d = lista[i][0].find(x)
+    for i in range(0, len(lista.lista)):
+        d = lista.lista[i][0].find(x)
         if d != -1:
-            print(sel, ")", lista[i][0])
+            print(sel, ")", lista.lista[i][0])
             temp = temp + [i]
             sel = sel + 1
 
     if sel != 1:
         print("Que elemento deseja selecionar?")
         op = int(input()) -1
-        print(lista[temp[op]][0])
-        print("Data de Criação:", lista[temp[op]][1])
-        if lista[temp[op]][3] == "Fechada":
-            print("Estado:", lista[temp[op]][3], "-> Data de concretização", lista[temp[op]][2])
+        print(lista.lista[temp[op]][0])
+        print("Data de Criação:", lista.lista[temp[op]][1])
+        if lista.lista[temp[op]][3] == "Fechada":
+            print("Estado:", lista.lista[temp[op]][3], "-> Data de concretização", lista.lista[temp[op]][2])
         else:
-            print("Estado:", lista[temp[op]][3])
-        print("Observações:", lista[temp[op]][4])
+            print("Estado:", lista.lista[temp[op]][3])
+        print("Observações:", lista.lista[temp[op]][4])
         print("------------------------------------------------------")
 
 def visualizar(lista,funcao):
@@ -187,7 +225,7 @@ def visualizar(lista,funcao):
 
     total = 0
 
-    for row in lista:
+    for row in lista.lista:
         if (row[4] == "Fechada" and funcao == "sort") or funcao == "main":
             print(row[0])
             print("Quantidade:",row[1]," -> Preço:",row[3])
@@ -230,9 +268,9 @@ def closeElem(lista):
     temp = []
     sel = 1
 
-    for i in range(0,len(lista)):
-        if lista[i][3] == "Aberta":
-            print(sel,")",lista[i][0])
+    for i in range(0,len(lista.lista)):
+        if lista.lista[i][3] == "Aberta":
+            print(sel,")",lista.lista[i][0])
             temp = temp + [i]
             sel = sel + 1
     if sel == 1:
@@ -240,7 +278,36 @@ def closeElem(lista):
     else:
         print("Escolhe o elemento que quer pagar:")
         sel = int(input()) - 1
-        lista[temp[sel]][2] = datetime.datetime.now()
-        lista[temp[sel]][3] = "Fechada"
+        lista.lista[temp[sel]][2] = datetime.datetime.now()
+        lista.lista[temp[sel]][3] = "Fechada"
 
     return(lista)
+
+def atualiza(allLists, lista):
+    for i in range(0,len(allLists)):
+        if allLists[i].nome == lista.nome:
+            print("found")
+            allLists[i] = lista
+    return allLists
+
+def mudarLista(allLists):
+    sel = 1
+    leng = len(allLists)
+    print("len",leng)
+    for list in allLists:
+        print(sel, ')', list.nome)
+        sel = sel + 1
+    op=int(input("Qual e que deseja mudar:"))
+    op = op - 1
+    list = allLists[op]
+    return list
+
+def mudarNomeLista(list): #list.nome
+    nome = input("Novo nome da lista:")
+    list.nome = nome
+    return list
+
+def criarList(allLists):
+    nome = input("Qual o nome da lista:")
+    allLists.append(myLists(nome,"0",[]))
+    return allLists
